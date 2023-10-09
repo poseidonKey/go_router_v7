@@ -64,6 +64,18 @@ class RootScreen extends StatelessWidget {
             },
             child: const Text('Go Login2 Screen'),
           ),
+          ElevatedButton(
+            onPressed: () {
+              context.go('/transition');
+            },
+            child: const Text('Go transition Screen'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              context.go('/error'); //router에 없는 이동 스크린
+            },
+            child: const Text('Go error Screen'),
+          ),
         ],
       ),
     );

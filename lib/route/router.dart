@@ -1,3 +1,6 @@
+import 'package:f_go_rounter7/screens/10_transition_screen_1.dart';
+import 'package:f_go_rounter7/screens/10_transition_screen_2.dart';
+import 'package:f_go_rounter7/screens/11_error_screen.dart';
 import 'package:f_go_rounter7/screens/1_basic_screen.dart';
 import 'package:f_go_rounter7/screens/2_named_screen.dart';
 import 'package:f_go_rounter7/screens/3_push_screen.dart';
@@ -10,6 +13,7 @@ import 'package:f_go_rounter7/screens/8_nested_screen.dart';
 import 'package:f_go_rounter7/screens/9_login_screen.dart';
 import 'package:f_go_rounter7/screens/9_private_screen.dart';
 import 'package:f_go_rounter7/screens/root_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 // 로그인이 됐는지 안됐는지
@@ -140,7 +144,47 @@ final router = GoRouter(
             ),
           ],
         ),
+        GoRoute(
+          path: 'transition',
+          builder: (_, state) => const TransitionScreenOne(),
+          routes: [
+            GoRoute(
+              path: 'detail',
+              // builder: (_, state) => const TransitionScreenTwo(),
+              pageBuilder: (context, state) => CustomTransitionPage(
+                transitionDuration: const Duration(
+                  seconds: 3,
+                ),
+                transitionsBuilder: (
+                  context,
+                  animation,
+                  secondaryAnimation,
+                  child,
+                ) {
+                  return RotationTransition(
+                    turns: animation,
+                    child: child,
+                  );
+                  // return ScaleTransition(
+                  //   scale: animation,
+                  //   child: child,
+                  // );
+                  // return FadeTransition(
+                  //   opacity: animation,
+                  //   child: child,
+                  // );
+                },
+                child: const TransitionScreenTwo(),
+              ),
+            ),
+          ],
+        ),
       ],
     ),
   ],
+  errorBuilder: (context, state) => ErrorScreen(
+    // go router 자체의 이동 오류
+    error: state.error.toString(),
+  ),
+  debugLogDiagnostics: true, // router의 구조에 관한 내용을 출력.. 기본 false
 );
